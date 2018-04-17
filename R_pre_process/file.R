@@ -112,10 +112,16 @@ RNN_data$time <- as.Date(RNN_data$time+5,origin = "01-01-1970", format = "%d-%m-
 RNN_data$weekday <- as.numeric(format(RNN_data$time,"%w")) 
 RNN_data$month <- month(RNN_data$time)
 
+RNN_data$slope <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[2]])
+RNN_data$intersect <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[1]])
+
+
 #write RNN_data to disk
 #write.csv(RNN_data, file = ".../mood_smartphone/RNN_data_version1.csv")
 
-TempForm_data <- RNN_data[,c(1,2,103,104,105)]
+TempForm_data <- RNN_data[,c(1,2,103,104,105,106,107)]
+
+
 
 {TempForm_data$social <- rowMeans(RNN_data[,c("social1","social2","social3","social4","social5")])
 TempForm_data$travel <- rowMeans(RNN_data[,c("travel1","travel2","travel3","travel4","travel5")])
@@ -137,6 +143,9 @@ TempForm_data$finance <- rowMeans(RNN_data[,c("finance1","finance2","finance3","
 TempForm_data$game <- rowMeans(RNN_data[,c("game1","game2","game3","game4","game5")])
 TempForm_data$office <- rowMeans(RNN_data[,c("office1","office2","office3","office4","office5")])
 TempForm_data$other <- rowMeans(RNN_data[,c("other1","other2","other3","other4","other5")])}
+
+
+
 
 #write TempForm_data to disk
 #write.csv(TempForm_data, file = ".../mood_smartphone/TempForm_data_version1.csv")
