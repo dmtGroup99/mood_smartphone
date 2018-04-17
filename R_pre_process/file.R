@@ -111,6 +111,7 @@ RNN_data[,2:103] <- lapply(RNN_data[,2:103], function(x) as.numeric(x))
 RNN_data$time <- as.Date(RNN_data$time+5,origin = "01-01-1970", format = "%d-%m-%Y")
 RNN_data$weekday <- as.numeric(format(RNN_data$time,"%w")) 
 RNN_data$month <- month(RNN_data$time)
+RNN_data$monthday <- as.numeric(format(RNN_data$time,"%d")) 
 
 RNN_data$slope <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[2]])
 RNN_data$intersect <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[1]])
@@ -119,7 +120,7 @@ RNN_data$intersect <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")
 #write RNN_data to disk
 #write.csv(RNN_data, file = ".../mood_smartphone/RNN_data_version1.csv")
 
-TempForm_data <- RNN_data[,c(1,2,103,104,105,106,107)]
+TempForm_data <- RNN_data[,c(1,2,103,104,105,106,107,108)]
 
 
 
