@@ -13,9 +13,9 @@ RNN_data <- function(dat, days){
       vec <- vector()
       for(j in 0:(days - 1)){
         if(any(x$time == start + j)){
-          vec <- unname(unlist(c(vec, x[x$time == start + j, 3:length(x)])))
+          vec <- unname(unlist(c(vec, x[x$time == start + j, 1:length(x)])))
         }else{
-          vec <- c(vec, rep(NA, length(x) - 2))
+          vec <- c(vec, rep(NA, length(x)))
         }
       }
       if(any(x$time == start + days)){
