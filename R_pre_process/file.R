@@ -68,7 +68,7 @@ data_wide[,-3][is.na(data_wide[,-3])] <- 0
 
 #make RNN data
 #setwd(".../mood_smartphone/R_pre_process")
-source("/RNN_transformation_function.R")
+source("R_pre_process/RNN_transformation_function.R")
 result <- RNN_data(data_wide, 5)
 RNN_data <- data.table(result[,c(-23,-24,-45,-46,-67,-68,-89,-90)])
 
@@ -116,11 +116,12 @@ RNN_data$monthday <- as.numeric(format(RNN_data$time,"%d"))
 RNN_data$slope <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[2]])
 RNN_data$intersect <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, function(x) lm(unname(unlist(x)) ~ c(1,2,3,4,5))$coefficients[[1]])
 
+RNN_data$variance <- apply(RNN_data[,c("mood1","mood2","mood3","mood4","mood5")], 1, var)
 
 #write RNN_data to disk
 #write.csv(RNN_data, file = ".../mood_smartphone/RNN_data_version1.csv")
 
-TempForm_data <- RNN_data[,c(1,2,103,104,105,106,107,108)]
+TempForm_data <- RNN_data[,c(1,2,103,104,105,106,107,108,109)]
 
 
 
